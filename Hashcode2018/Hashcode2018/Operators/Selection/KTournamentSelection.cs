@@ -25,7 +25,7 @@ namespace Hashcode2018.Operators.Selection
                 selected.Add(population.Chromosomes.ElementAt(index));
             }
 
-            return selected.OrderBy(x => x.Fitness).ToList();
+            return selected.OrderByDescending(x => x.Fitness).ToList();
         }
     }
 }

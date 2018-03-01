@@ -16,7 +16,10 @@ namespace Hashcode2018.Operators.Mutation
         {
             for (var i = 0; i < chromosome.Values.Length; i++)
             {
-                chromosome[i] = UtilityMethods.Random.NextDouble() * chromosome[i];
+                if (UtilityMethods.Random.NextDouble() <= _mutationProbability)
+                {
+                    chromosome[i] = UtilityMethods.Random.Next(Chromosome.FleetSize);
+                }
             }
 
             return chromosome;

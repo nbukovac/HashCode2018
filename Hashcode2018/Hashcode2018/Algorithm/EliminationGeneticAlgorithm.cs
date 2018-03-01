@@ -8,11 +8,14 @@ namespace Hashcode2018.Algorithm
 {
     public class EliminationGeneticAlgorithm : GeneticAlgorithm<Chromosome>
     {
+        public int ChromosomeSize { get; set; }
+        
         public EliminationGeneticAlgorithm(IMutate<Chromosome> mutation, ISelection<Chromosome> selection, ICrossover<Chromosome> crossover,
-            IFitnessFunction<Chromosome> fitnessFunction, int iterationLimit, double fitnessTerminator, int populationSize) 
+            IFitnessFunction<Chromosome> fitnessFunction, int iterationLimit, double fitnessTerminator, int populationSize, int chromosomeSize) 
             : base(mutation, selection, crossover, fitnessFunction, iterationLimit, fitnessTerminator, populationSize)
         {
             Population = new Population<Chromosome>(populationSize);
+            ChromosomeSize = chromosomeSize;
             
             InitializePopulation();
         }
@@ -21,7 +24,7 @@ namespace Hashcode2018.Algorithm
         {
             for (var i = 0; i < PopulationSize; i++)
             {
-                var chromosome = new Chromosome(5);
+                var chromosome = new Chromosome(ChromosomeSize);
                 chromosome.Fitness = FitnessFunction.CalculateFitness(chromosome);
                 Population.Add(chromosome);
             }
@@ -29,7 +32,7 @@ namespace Hashcode2018.Algorithm
         
         public override Chromosome FindOptimum()
         {
-            var best = new Chromosome(5) { Fitness = double.MaxValue };
+            var best = new Chromosome(ChromosomeSize) { Fitness = double.NegativeInfinity };
 
             for (var i = 0; i < IterationLimit; i++)
             {
@@ -42,13 +45,13 @@ namespace Hashcode2018.Algorithm
                 Population.Remove(selectedFromPopulation[2]);
                 Population.Add(childChromosome);
 
-                var populationBest = double.MaxValue;
+                var populationBest = 0.0;
                 var bestIndex = 0;
                 var index = 0;
 
                 foreach (var chromosome in Population)
                 {
-                    if (chromosome.Fitness < populationBest)
+                    if (chromosome.Fitness > populationBest)
                     {
                         populationBest = chromosome.Fitness;
                         bestIndex = index;
@@ -57,16 +60,13 @@ namespace Hashcode2018.Algorithm
                     index++;
                 }
 
-                if (populationBest < best.Fitness)
+                if (populationBest > best.Fitness)
                 {
                     best = Population.ElementAt(bestIndex);
                     Console.WriteLine("Iteration: " + i + ", Best fitness: " + populationBest);
                 }
 
-                if (populationBest < FitnessTerminator)
-                {
-                    break;
-                }
+                
             }
             
             return best;

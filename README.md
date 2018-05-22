@@ -1,7 +1,7 @@
 # HashCode2018
 Team Coding Llamas's solution to the Google Hash Code 2018 Qualification Round.
 
-The problem task is available in the file [online_qualification_round_2018.pdf](online_qualification_round_2018.pdf.pdf).
+The problem task is available in the file [online_qualification_round_2018.pdf](online_qualification_round_2018.pdf).
 
 The final solution was developed in C# usign .NET Core 2 and is available in folder [Hashcode2018](Hashcode2018).
 
